@@ -43,6 +43,7 @@ public class Servidor {
         ventana_chat.setResizable(false);
         ventana_chat.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
         Thread principal = new Thread(new Runnable() {
             public void run() {
                 try {
@@ -60,6 +61,8 @@ public class Servidor {
         principal.start();
         }
     public void leer(){
+        int i=0;
+        int[] dato= new int[3];
         Thread leer_hilo = new Thread(new Runnable() {
             public void run() {
                 try{
@@ -67,12 +70,17 @@ public class Servidor {
                     while (true){
                         String mensaje_recibido=lector.readLine();
                         area_chat.append("Cliente 1: "+mensaje_recibido+"\n");
+                        System.out.println(lector.readLine());
+
                     }
                 }catch (Exception ex){
                     ex.printStackTrace();
                 }
+
             }
+
         });
+
         leer_hilo.start();
 
     }

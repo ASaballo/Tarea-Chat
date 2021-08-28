@@ -4,6 +4,7 @@ import java.nio.ByteOrder;
 import java.net.*;//Para los socket
 import java.io.*;//Para recibir y enviar mensajes
 import java.awt.event.*;//Manejo de eventos con swing
+import java.util.StringTokenizer;
 
 public class Cliente1 {
     JFrame ventana_chat=null;
@@ -56,7 +57,28 @@ public class Cliente1 {
         principal.start();
     }
 
+    public void tests(){
+
+        int i=0;
+        int[] dato= new int[3];
+
+        String txt;
+        txt= "22,12,35";
+        StringTokenizer tokens = new StringTokenizer(txt,",");//Convierte el string en un arreglo
+        while (tokens.hasMoreTokens()){//ciclo para decir que hay palabras para separar
+
+            dato[i]= Integer.parseInt(tokens.nextToken());
+            System.out.println(dato[i]);
+            i++;
+            if (i==3){
+                System.out.println(dato[0]+dato[1]+dato[2]);
+            }
+        }
+
+    }
+
     public void leer(){
+
         Thread leer_hilo = new Thread(new Runnable() {
             public void run() {
                 try{
@@ -64,12 +86,25 @@ public class Cliente1 {
                         while (true){
                             String mensaje_recibido=lector.readLine();
                             area_chat.append("Servidor: "+mensaje_recibido+"\n");
-                            //String prueba = mensaje_recibido;
-                            //System.out.println(prueba);
-                            Integer prueba = Integer.parseInt(mensaje_recibido);
-                            System.out.println(2+prueba);
+                            System.out.println(mensaje_recibido);
+                            int i=0;
+                            int[] dato= new int[3];
+
+                            String txt;
+
+                            StringTokenizer tokens = new StringTokenizer(mensaje_recibido,",");//Convierte el string en un arreglo
+                            while (tokens.hasMoreTokens()){//ciclo para decir que hay palabras para separar
+
+                                dato[i]= Integer.parseInt(tokens.nextToken());
+                                System.out.println(dato[i]);
+                                i++;
+                                if (i==3){
+                                    System.out.println(dato[0]+dato[1]+dato[2]);
+                                }
+                            }
+
                         }
-                }catch (Exception ex){
+                    }catch (Exception ex){
                     ex.printStackTrace();
                 }
             }
@@ -85,10 +120,9 @@ public class Cliente1 {
                     escritor= new PrintWriter(socket.getOutputStream(),true);
                     btn_enviar.addActionListener(new ActionListener() {//Sirve para hacer que el boton reciba acciones
                         public void actionPerformed(ActionEvent e) {
+                            //tests();
                             String enviar_mensaje = txt_mensaje.getText();//agarra el texto de la caja de texto
-                            if (enviar_mensaje.("hola")){
-                                System.out.println("FUCK");
-                            }
+
                             escritor.println(enviar_mensaje);//enviar mensaje
                             txt_mensaje.setText("");
                         }
